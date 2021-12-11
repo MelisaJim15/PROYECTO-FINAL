@@ -1,0 +1,759 @@
+#include <iostream>
+#include <string.h>
+#include <fstream>
+#include <windows.h>
+
+
+using namespace std;
+
+using std::ofstream;
+
+//ESTRUCTURAS
+struct clientes
+{
+	string nombre;
+	double sueldo;
+	
+};
+
+
+struct tarjetas
+{
+	int usuario;
+	int pin;
+	
+	struct clientes user;
+	
+};
+
+
+//DECLARACIONES
+struct tarjetas visa[3];
+
+int v1;
+double retiro, saldo, agregar2, anterior, ret2, ag2;
+
+//PROTOTIPOS
+void titulo(string);
+void cargar();
+bool buscar(int, bool);
+void menu();
+
+void consultar();
+void retirar();
+void verificar(double);
+void menuretiro();
+void agregar();
+void agregarsaldo(double);
+void menuagregar();
+void imprimir();
+void pagar();
+void menupagar();
+
+void error();
+void error2();
+void error3();
+
+main()
+{
+	int usuario, contra;
+	char ao=162,AA=181, AO=224, AU=233;
+	system("cls");
+	cargar();	
+	system("color 5");
+	titulo("BIENVENIDO AL CAJERO AUTOMATICO");
+	
+	printf("INGRESA TU USUARIO  :  ");
+    scanf ("%d",&usuario);
+	printf("\n \n");
+		
+	//verificar usuario 
+	if (buscar(usuario, true))
+	{
+		printf( "INGRESA TU PIN  :  ");
+		scanf("%d",&contra);
+		
+			
+		//verificar pin 
+		if(buscar(contra, false))
+		{
+			
+			//VERIFICA SI COINCIDE LOS DATOS ENCONTRADOS
+			if((visa[v1].usuario == usuario) && (visa[v1].pin == contra))
+			{
+				menu();
+			}
+			else
+			{
+				system("cls");
+				titulo("BIENVENIDO AL CAJERO AUTOMATICO");
+				
+				printf("\n \n EL USUARIO Y EL PIN NO COINCIDEN INTENTA DE NUEVO  \n \n");
+				system("pause");
+				return main();
+			}
+			
+		}
+		else
+		{
+			printf("\n \n EL PIN ES INV%cLIDO  \n \n",AA);
+			system("pause");
+			return main();
+		}
+	}
+	else
+	{
+		cout << "\n \n USUARIO  INCORRECTO  \n \n";
+		system("pause");
+		return main();
+	}
+	
+	
+			
+}
+
+void menu()
+{
+	string op;
+	
+	char ao=162,AA=181, AO=224, AU=233;
+	system("cls");
+
+	titulo("MENU DE CAJERO AUTOMATICO ");
+	
+	
+	while(true)
+	{
+		printf("1.  CONSULTAR SALDO \n");
+		printf("2.  RETIRAR SALDO   \n");
+		printf("3.  DEPOSITAR   \n");
+		printf("4.  PAGAR UN SERVICIO     \n");
+		printf("5.  IMPRIMIR \n");
+		printf("6.  SALIR ");
+		printf("\n \n \n");	
+		printf("Elegir una Opci%cn  :   ",ao);
+		cin >> op;
+		
+		if (op == "1")
+		{
+			consultar();
+			break;
+		}
+		else if(op == "2")
+		{
+			retirar();
+			break;
+		}
+		else if(op == "3")
+		{
+			agregar();
+			break;
+		}
+		else if(op == "4")
+		{
+			pagar();
+			break;
+		}
+		else if(op == "5")
+		{
+			imprimir();
+			break;
+		}
+		else if(op == "6")
+		{
+			main();
+			break;
+		}
+		else
+		{
+			error();
+			break;
+		}
+			
+	
+	}
+	
+}
+
+void consultar()
+{
+	system("cls");
+	titulo("CONSULTA DE SALDO ");
+	
+	printf( "-----------------------------------------------------------------------\n \n");
+	cout << "  Usuario  :  " << visa[v1].usuario << "\n \n";
+	cout << "  Nombre   :  " << visa[v1].user.nombre << "\n \n";
+	cout << "  Saldo    :  " << visa[v1].user.sueldo << "\n \n";
+	printf( "-----------------------------------------------------------------------\n \n");
+	
+	system("pause");
+	menu();
+	
+}
+
+
+void retirar()
+{
+	retiro = 0;
+	
+	string op2;
+	
+	system("cls");
+	char ao=162;
+	titulo("OPCIONES DE RETIRO ");
+	
+	while(true)
+	{
+		printf("1.  100 \n \n");
+		printf("2.  200 \n \n");
+		printf("3.  500 \n \n");
+		printf("4.  1000 \n \n");
+		printf("5.  Cancelar \n \n");
+		
+		
+		printf( "\n \n \n");
+		printf( "Elegir Opci%cn de Retiro  :  ",ao);
+		scanf("%d",&op2);
+		
+		if(op2=="1")
+		{
+			retiro = 100;
+			
+			verificar(retiro);
+			break;
+		}
+		else if(op2=="2")
+		{
+			retiro = 200;
+			verificar(retiro);
+			break;
+		}
+		else if(op2=="3")
+		{
+			retiro = 500;
+			verificar(retiro);
+			break;
+		}
+		else if(op2=="4")
+		{
+			retiro = 1000;
+			verificar(retiro);
+			break;
+		}
+		else if(op2=="5")
+		{
+			menu();
+		}
+		else
+		{
+			error2();
+			break;
+			
+		}
+	}	
+	
+}
+
+void verificar(double rt)
+{
+	saldo = visa[v1].user.sueldo;
+	anterior = saldo;
+	
+	if (saldo >= rt)
+	{
+		saldo = saldo - rt;
+		visa[v1].user.sueldo = saldo;
+		ret2 = rt;
+		system("cls");
+		titulo("RETIRO DE SALDO ");
+		printf( "SU SALDO DE %f FUE RETIRADO CON EXITO \n \n",rt);
+		printf( "SU NUEVO SALDO ES %f \n \n \n",saldo);
+		system("pause");
+		menuretiro();		
+		
+	}
+	else
+	{
+		system("cls");
+		titulo("OPCIONES DE RETIRO ");
+		printf( "SALDO INSUFICIENTE PARA EL RETIRO  \n \n \n");
+		system("pause");
+		retirar();
+		
+	}
+	
+}
+
+
+void menuretiro()
+{
+	string op3;
+	
+	system("cls");
+	titulo("OPCIONES DE RETIRO ");
+	printf( "1. REALIZAR OTRO RETIRO   \n \n \n");
+	printf( "2. IR AL MENU   \n \n \n");
+	printf("Elegir una Opcion  :   ");
+	scanf("%d",&op3);
+	
+	
+	if(op3== "1")
+	{
+		retirar();
+	}
+	else if(op3=="2")
+	{
+		menu();
+	}
+	else
+	{
+		menuretiro();
+	}
+	
+	
+}
+
+
+void agregar()
+{
+	agregar2 = 0;
+	
+	string op4;
+	
+	system("cls");
+	char ao=162;
+	titulo("OPCIONES DE AGREGAR SALDO ");
+	
+	while(true)
+	{
+		printf( "1.  50 \n \n");
+		printf("2.  100 \n \n");
+		printf( "3.  200 \n \n");
+		printf( "4.  500 \n \n");
+		printf( "5.  Cancelar \n \n");
+		
+		
+		cout << "\n \n \n";
+		cout << "Elegir Opci%n de Retiro  :  ",ao;
+		cin >> op4;
+		
+		if(op4=="1")
+		{
+			agregar2 = 50;
+			agregarsaldo(agregar2);
+			break;
+		}
+		else if(op4=="2")
+		{
+			agregar2 = 100;
+			agregarsaldo(agregar2);
+			break;
+		}
+		else if(op4=="3")
+		{
+			agregar2 = 200;
+			agregarsaldo(agregar2);
+			break;
+		}
+		else if(op4=="4")
+		{
+			agregar2 = 500;
+			agregarsaldo(agregar2);
+			break;
+		}
+		else if(op4=="5")
+		{
+			menu();
+		}
+		else
+		{
+			error3();
+			break;
+			
+		}
+	}	
+	
+}
+
+void agregarsaldo(double as)
+{
+	saldo = visa[v1].user.sueldo;
+	saldo = saldo + as;
+	visa[v1].user.sueldo = saldo;
+	
+		ag2 = as;
+		system("cls");
+		titulo("AGREGADO DE SALDO ");
+		printf( "SU SALDO DE  %f  FUE AGREGADO CON EXITO \n \n",as);
+		printf( "SU NUEVO SALDO ES %f \n \n \n",saldo);
+		system("pause");
+		menuagregar();		
+
+}
+
+void menuagregar()
+{
+	string op5;
+	char ao=162,AA=181, AO=224, AU=233;
+	system("cls");
+	titulo("OPCIONES DE AGREGAR SALDO ");
+	printf( "1. REALIZAR OTRO AGREGADO DE SALDO   \n \n \n");
+	printf( "2. IR AL MENU   \n \n \n");
+	printf( "Elegir una Opci%cn  :   "),ao;
+	scanf("%d",&op5);
+	
+	
+	if(op5 == "1")
+	{
+		agregar();
+	}
+	else if(op5 == "2")
+	{
+		menu();
+	}
+	else
+	{
+		menuagregar();
+	}
+	
+	
+}
+
+void pagar()
+{
+	
+	string op4;
+	
+	int servicio, agua, luz, telefono,periodo,cont;
+	char ao=162,AA=181, AO=224, AU=233, AE=144,AI=214;
+	system("cls");
+	titulo("PAGAR SERVICIO ");
+	printf("INDICA QUE SERVICIO DESEAS PAGAR\n");
+                         printf("1. AGUA \n");
+                         printf("2. LUZ EL%cTRICA \n",AE);
+                         printf("3. SERVICIO DE TELEFION%cA E INTERNET\n",AI);
+                         printf("4. IR AL MEN%c\n",AU);
+                         scanf("%d",& servicio);
+                         
+                        switch (servicio)
+                        { 
+                        case 1: printf("INGRESA EL PERIODO QUE DESEAS PAGAR\n"); 
+                                printf(" 1. JULIO-AGOSTO \n 2. SEPTIEMBRE-OCTUBRE \n 3. NOVIEMBRE-DICIEMBRE \n");
+                                scanf("%d",&periodo);
+							
+								if(periodo==1)
+								{
+								printf(" ESTE PERIODO ESTA VENCIDO\n SU SERVICIO HA SIDO CANCELADO \n PARA PAGAR ACUDA A LAS OFICINAS CORRESPONDIENTES\n");	
+                                printf("Dijite cero para continuar:\n");
+                                scanf("%d",cont);
+                                if(cont==0)
+								{
+                                menupagar();	
+								}
+								}
+
+								 else if(periodo==2)
+								 {
+								 printf("ESTE PERIODO ESTA POR VENCER\n");
+								 printf("LA CANTIDAD A PAGAR ES DE $85.00\n");
+								 printf("INGRESA EL MONTO ESPEC%cFICO A PAGAR:\n",AI);
+                                 scanf("%d",& agua);
+                                 printf("SU SERVICIO SE PAG%c CORRECTAMENTE\n",AO);
+								 }
+
+								 else 
+								 {
+								 printf("LA CANTIDAD A PAGAR ES DE $85.00 \n");
+								 printf("INGRESA EL MONTO ESPEC%cFICO A PAGAR:\n",AI);
+                                 scanf("%d",& agua);
+                                 printf("SU SERVICIO SE PAG%c CORRECTAMENTE\n",AO);	
+                                 printf("GRACIAS POR PAGAR A TIEMPO\n");
+								 }
+
+	
+                         break;
+                         case 2: printf("INGRESA EL PERIODO QUE DESEAS PAGAR\n"); 
+                                printf(" 1. JULIO-AGOSTO \n 2. SEPTIEMBRE-OCTUBRE \n 3. NOVIEMBRE-DICIEMBRE \n");
+                                scanf("%d",&periodo);
+                                
+								if(periodo==1)
+								{
+								printf(" ESTE PERIODO ESTA  VENCIDO\n SU SERVICIO HA SIDO CANCELADO \n PARA PAGAR ACUDA A LAS OFICINAS CORRESPONDIENTES\n");	
+								}
+
+								 else if(periodo==2)
+								 {
+								 printf("ESTE PERIODO ESTA POR VENCER\n");
+								 printf("LA CANTIDAD A PAGAR ES DE $287.00\n");
+								 printf("INGRESA EL MONTO ESPEC%cFICO A PAGAR:\n",AI);
+                                 scanf("%d",& agua);
+                                 printf("SU SERVICIO SE PAG%c CORRECTAMENTE\n",AO);
+								
+								 }
+								 
+								 
+								 else 
+								 {
+								 printf("LA CANTIDAD A PAGAR ES DE $85.00\n");
+								 printf("INGRESA EL MONTO ESPEC%cFICO A PAGAR:\n",AI);
+                                 scanf("%d",& agua);
+                                 printf("SU SERVICIO SE PAG%c CORRECTAMENTE\n",AO);	
+                                 printf("GRACIAS POR PAGAR A TIEMPO\n");
+								 }
+	
+                         break;
+                         case 3: printf("INGRESA EL PERIODO QUE DESEAS PAGAR\n"); 
+                                printf(" 1. JULIO-AGOSTO \n 2. SEPTIEMBRE-OCTUBRE \n 3. NOVIEMBRE-DICIEMBRE\n");
+                                scanf("%d",&periodo);
+                                
+								if(periodo==1)
+								{
+								printf(" ESTE PERIODO ESTA VENCIDO\n SU SERVICIO HA SIDO CANCELADO \n PARA PAGAR ACUDA A LAS OFICINAS CORRESPONDIENTES\n");	
+
+								}
+								
+								 else if(periodo==2)
+								 {
+								 printf("ESTE PERIODO ESTA POR VENCER\n");
+								 printf("LA CANTIDAD A PAGAR ES DE $550.00\n");
+								 printf("INGRESA EL MONTO ESPEC%cFICO A PAGAR:\n",AI);
+                                 scanf("%d",& agua);
+                                 printf("SU SERVICIO SE PAG%c CORRECTAMENTE\n",AO);
+								 }
+								 
+								 else 
+								 {
+								 printf("LA CANTIDAD A PAGAR ES DE $550.00\n");
+								 printf("INGRESA EL MONTO ESPEC%cFICO A PAGAR:\n",AI);
+                                 scanf("%d",& agua);
+                                 printf("SU SERVICIO SE PAG%c CORRECTAMENTE\n",AO);	
+                                 printf("GRACIAS POR PAGAR A TIEMPO\n");
+
+								 }
+								
+                         break;
+                         case 4:
+                         	{
+	                        menu();
+	                        }
+                         case 5:
+                            {
+	                        error3();
+	                        }
+	                     break;
+	                     menupagar();
+	                     
+                        }
+                        
+ 
+	
+}
+
+void menupagar()
+{
+	string op6;
+	
+	char ao=162,AA=181, AO=224, AU=233;
+	system("cls");
+	titulo("OPCIONES DE PAGAR ");
+	printf( "1. PAGAR OTRO SERVICIO  \n \n \n");
+	printf( "2. IR AL MENU   \n \n \n");
+	printf( "Elegir una Opci%cn  :   "),ao;
+	scanf("%d",&op6);
+	
+	
+	if(op6== "1")
+	{
+		pagar();
+	}
+	else if(op6=="2")
+	{
+		menu();
+	}
+	else
+	{
+		menupagar();
+	}	
+	
+}
+
+
+void imprimir()
+{
+	
+	
+	system("cls");
+	titulo("IMPRIMIR TRANSANCION ");
+	
+	ofstream imp("cliente.txt");
+	
+	Sleep(1000);
+	
+	cout << "USUARIO        :   " << visa[v1].usuario << "\n \n";
+	Sleep(1000);
+	cout << "NOMBRE         :   " << visa[v1].user.nombre << "\n \n";
+	Sleep(1000);
+	cout << "SALDO ANTERIOR :   " << anterior << "\n \n";
+	Sleep(1000);
+	cout << "SALDO RETIRO   :   " << ret2 << "\n \n";
+	Sleep(1000);
+	cout << "SALDO AGREGADO :   " << ag2 << "\n \n";
+	Sleep(1000);
+	cout << "SALDO ACTUAL   :   " << visa[v1].user.sueldo << "\n \n";
+	Sleep(1000);
+	
+	
+	imp  << "USUARIO        :   " << visa[v1].usuario << "\n \n";	
+	imp  << "NOMBRE         :   " << visa[v1].user.nombre << "\n \n";	
+	imp  << "SALDO ANTERIOR :   " << anterior << "\n \n";	
+	imp  << "SALDO RETIRO   :   " << ret2 << "\n \n";	
+	imp  << "SALDO AGREGADO :   " << ag2 << "\n \n";	
+	imp  << "SALDO ACTUAL   :   " << visa[v1].user.sueldo << "\n \n";
+	
+	imp.close();
+		
+	cout << "\n \n DATOS IMPRESOS CORRECTAMENTE \n \n \n";
+	system("pause");
+	menu();
+	
+	
+	
+}
+
+
+
+void error3()
+{
+	char ao=162,AA=181, AO=224, AU=233;
+	system("cls");
+	printf("OPCIONES INV%cLIDAS DEL CAJERO AUTOM%cTICO \n",AA,AA);
+	printf( "LA OPCI%cN DE INGRESO DE SALDO NO EXISTE \n \n ",AO);
+	system("pause");
+	agregar();
+}
+
+
+
+void error2()
+{
+	char ao=162,AA=181, AO=224, AU=233;
+	system("cls");
+	printf("OPCIONES INV%cLIDAS DEL CAJERO AUTOM%cTICO \n",AA,AA);
+	printf("LA OPCI%cN DE RETIRO NO EXISTE \n \n ",AO);
+	system("pause");
+	retirar();
+}
+
+
+void error()
+{
+	char ao=162,AA=181, AO=224, AU=233;
+	system("cls");
+	printf("OPCIONES INV%cLIDAS DEL CAJERO AUTOM%cTICO \n",AA);
+	printf("LA OPCI%cN INGRESADO NO EXISTE \n \n ",AO);
+	system("pause");
+	menu();
+}
+
+
+void titulo(string title)
+{
+	int i;
+	int val;
+	
+	val = title.length() ;
+	
+	val = val + 20;
+	
+	
+	for(i=0; i<= val; i++)
+	{
+		printf("*");
+	}
+	
+	printf("\n \n");
+	
+	for(i=0; i<= val; i++)
+	{
+		printf(" ");
+		if(i==4 )
+		{
+		cout << title;
+		}
+		
+		printf(" ");
+		
+	}
+	
+	printf("\n");
+	
+	for(i=0; i<= val; i++)
+	{
+		printf("*");
+	}
+	
+	printf("\n \n \n");
+	
+}
+
+
+
+
+void cargar()
+{
+	visa[0].usuario= 1924;
+	visa[0].pin	= 2222;
+	visa[0].user.nombre = "MELISA";
+	visa[0].user.sueldo = 10000;
+	
+	visa[1].usuario= 1925;
+	visa[1].pin	= 2223;
+	visa[1].user.nombre = "ERICK";
+	visa[1].user.sueldo = 10000;
+	
+	
+	visa[2].usuario= 1926;
+	visa[2].pin	= 2224;
+	visa[2].user.nombre = "LIZBETH";
+	visa[2].user.sueldo = 10000;
+
+	
+}
+
+
+
+bool buscar(int bs, bool up)
+{
+	int i=0;
+
+	
+	if(up == true)
+	{
+		for(i=0; i<= 3; i++)
+		{
+			if(visa[i].usuario == bs)
+			{
+				v1 = i;
+				return true;
+			}
+		
+		}
+	}
+	else
+	{
+		for(i=0; i<= 3; i++)
+		{
+			if(visa[i].pin == bs)
+			{
+			
+				return true;
+			}
+		
+		
+		}
+	}
+
+}
+
+
+
