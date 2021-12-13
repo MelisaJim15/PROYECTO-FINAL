@@ -1,0 +1,186 @@
+#include <stdio.h>          //DECLARAMOS LAS LIBRERIAS
+#include <string.h>
+int main()
+    {
+    	system("color 0a");   //CAMBIAMOS EL COLOR DE LA TERMINAL DE SALIDA
+        int nip,user, accion ;
+        int saldo=10000.00;             //DECLARAMOS
+        int deposito;                   //LAS
+        int retiro;                     //VARIABLES
+        int servicio, periodo;
+        int agua, luz, telefono;
+        char ae=130, ai=161,ao=162,au=163,AO=244,AI=214;
+
+
+		
+		printf("INGRESA TU USUARIO: \n");
+        scanf("%d",&user);                     // En caso de que el usuario sea incorrecto termina el programa
+        if(user==2323)                         // Si el usuario es correcto te pide que ingreses tu NIP
+        {
+        
+		printf("INGRESA TU NIP: \n");         // En caso de que el usuario sea incorrecto termina el programa
+        scanf("%d",&nip);
+             
+             if (nip==1924)                   // Cuando el usuario y el NIP son correctos, entonces snos ejecuta el programa
+             {
+            do
+            {
+            printf("***************************************\n");               //Mensajes 
+             printf("****** Bienvenido al cajero Jime Alee ******\n");         // de 
+              printf("     **** Seleccione una opcion ****    \n ");           // Bienvenida
+              printf("***************************************\n");             
+              
+              printf("1.Deposito \n");
+              printf("2.Retiro \n");
+              printf("3.Consultar saldo\n");             //MENU DE INICIO
+             printf("4.Pagar un servicio\n");
+              printf("5.Salir\n");
+              scanf("%d",& accion);
+              
+                 switch (accion)
+            {
+                case 1:  printf("Ingresa la cantidad a depositar \n");    // Opcion 1, depositar, ingresas la cantidad y te erroja tu nuevo saldo
+                         scanf("%d",& deposito);
+                         saldo=saldo+deposito;
+                         printf("Su nuevo saldo es: %d",saldo);
+                break;
+                
+                case 2:  printf("Intresa la cantidad a retirar \n");
+                         scanf("%d",& retiro);
+                         if (retiro > saldo)                              // Opcion 2, retirar, ingresas la cantidad y te erroja tu nuevo saldo o en su defecto que 
+						 {                                                // cuentas con fondos suficientes
+						 	printf("No cuenta con fondos suficientes para retirar!!");
+						 }
+						 else
+						 {
+                         saldo=saldo-retiro;
+                         printf("Su nuevo saldo es: %d",saldo);
+                         }
+                break;
+                
+                case 3:  printf("Su saldo es: %d",saldo);          //Opcion 3, te indica cual es tu saldo actual
+                break;
+                
+                case 4:  printf("Indica que servicio quieres pagar\n");     //Opcion 4, Pagar Servicio
+                         printf("1.Agua \n");                                     
+                         printf("2.Luz el%cctrica\n",ae);                     //Te muestra el menu de los servicios que puedes pagar
+                         printf("3.Servicio de telefon%ca e internet\n",ai);
+                         scanf("%d",& servicio);
+                         
+                        
+                        switch (servicio)                           
+                        { 
+                        case 1: printf("Ingresa el periodo que desea pagar\n");                                         // Servicio de Agua              
+                                printf(" 1. JULIO-AGOSTO \n 2. SEPTIEMBRE-OCTUBRE \n 3. NOVIEMBRE-DICIEMBRE \n");       // Te pregunta que periodo deseas pagar de ese servicio
+                                scanf("%d",&periodo);
+							
+								if(periodo==1)
+								{
+								printf(" ESTE PERIODO ESTA VENCIDO\n SU SERVICIO HA SIDO CANCELADO \n PARA PAGAR ACUDA A LAS OFICINAS CORRESPONDIENTES\n");	 // Ya no puedes pagar
+                                }
+
+								 else if(periodo==2)
+								 {
+								 printf("ESTE PERIODO ESTA POR VENCER\n");                    //Puedes pagar aunque ya son los ultimos dias
+								 printf("La cantidad a pagar es de $85.00\n");
+								 printf("Ingresa el monto espec%cfico a pagar:\n",ai);
+                                 scanf("%d",& agua);
+                                 printf("SU SERVICIO SE PAG%c CORRECTAMENTE\n",AO);
+
+								 }
+
+								 else 
+								 {
+								 printf("La cantidad a pagar es de $85.00 \n");                //Pagas a tiempo
+								 printf("Ingresa el monto espec%cfico a pagar:\n",AI);
+                                 scanf("%d",& agua);
+                                 printf("SU SERVICIO SE PAG%c CORRECTAMENTE\n",AO);	
+                                 printf("GRACIAS POR PAGAR A TIEMPO\n");
+								 }
+
+	
+                         break;
+                         case 2: printf("Ingresa el periodo que desea pagar\n");                                     // Servicio de LUz  
+                                printf(" 1. JULIO-AGOSTO \n 2. SEPTIEMBRE-OCTUBRE \n 3. NOVIEMBRE-DICIEMBRE \n");    // Te pregunta que periodo deseas pagar de ese servicio   
+                                scanf("%d",&periodo);
+                                
+								if(periodo==1)
+								{
+								printf(" ESTE PERIODO ESTA VENCIDO\n SU SERVICIO HA SIDO CANCELADO \n PARA PAGAR ACUDA A LAS OFICINAS CORRESPONDIENTES\n");	//Ya no puedes pagar
+                                }
+
+								 else if(periodo==2)
+								 {
+								 printf("ESTE PERIODO ESTA POR VENCER\n");
+								 printf("La cantidad a pagar es de $287.00\n");
+								 printf("Ingresa el monto espec%cfico a pagar:\n",ai);        //Puedes pagar aunque ya son los ultimos dias
+                                 scanf("%d",& luz);
+                                 printf("SU SERVICIO SE PAG%c CORRECTAMENTE\n",AO);
+								 }
+
+								 else 
+								 {
+								 printf("La cantidad a pagar es de $287.00 \n");
+								 printf("Ingresa el monto espec%cfico a pagar:\n",AI);      //Pagas a tiempo
+                                 scanf("%d",& luz);
+                                 printf("SU SERVICIO SE PAG%c CORRECTAMENTE\n",AO);	
+                                 printf("GRACIAS POR PAGAR A TIEMPO\n");
+								 }
+	
+                         break;
+                         case 3: printf("Ingresa el periodo que desea pagar\n"); 
+                                printf(" 1. JULIO-AGOSTO \n 2. SEPTIEMBRE-OCTUBRE \n 3. NOVIEMBRE-DICIEMBRE\n");    // Te pregunta que periodo deseas pagar de ese servicio
+                                scanf("%d",&periodo);
+                                
+							if(periodo==1)
+								{
+								printf(" ESTE PERIODO ESTA VENCIDO\n SU SERVICIO HA SIDO CANCELADO \n PARA PAGAR ACUDA A LAS OFICINAS CORRESPONDIENTES\n");	//Ya no puedes pagar
+                                }
+
+								 else if(periodo==2)
+								 {
+								 printf("ESTE PERIODO ESTA POR VENCER\n");
+								 printf("La cantidad a pagar es de $550.00\n");
+								 printf("Ingresa el monto espec%cfico a pagar:\n",ai);     //Puedes pagar aunque ya son los ultimos dias
+                                 scanf("%d",& telefono);
+                                 printf("SU SERVICIO SE PAG%c CORRECTAMENTE\n",AO);
+
+								 }
+
+								 else 
+								 {
+								 printf("La cantidad a pagar es de $550.00 \n");            //Pagas a tiempo
+								 printf("Ingresa el monto espec%cfico a pagar:\n",AI);
+                                 scanf("%d",& telefono);
+                                 printf("SU SERVICIO SE PAG%c CORRECTAMENTE\n",AO);	
+                                 printf("GRACIAS POR PAGAR A TIEMPO\n");
+								 }
+                        }
+                
+                break;
+                
+                case 5:  printf("Gracias por usar nuestro servicio de cajero.\n");  // Opcion 5, despedida
+                         printf("Vuelva pronto, buen día.\n");                      
+                
+                      break;
+                      
+            }
+            printf("\nPara seguir digite 0, para salir digite 5\n");          // Se repidte despues de cada accion
+               scanf("%d",& accion);
+          } while  (accion!=5);
+                         printf("Gracias por usar nuestro servicio.\n");
+                         printf("Vuelva pronto, buen d%ca.\n",ai);            //En caso de que la accion seleccionada te da las gracias por usar el cajero):
+                         
+        }else 
+        {
+        
+                printf("EL NIP ES INCORRECTO\n");                            //Si no se cumple la condicion en donde el NIP es correcto
+                printf("INGRESE NUEVAMENTE CON EL NIP CORRECTO\n");          // Te avisa que el NIP es incorrecto y termina le programa
+        }
+    }else
+    {
+    	                printf("ESTE USUARIO NO EXISTE\n");                   //Si no se cumple la condicion en donde el Ususario es correcto
+                printf("INGRESE NUEVAMENTE CON UN USUARIO CORRECTO\n");        // Te avisa que el user es incorrecto y termina le programa
+	}
+}
+        
